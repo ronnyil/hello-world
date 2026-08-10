@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>המטבחון של סימה – טופס הרשמה להזנה</title>
+<style>
+  :root{
+    --bg:#faf7f2;
+    --panel:#ffffff;
+    --ink:#2c2620;
+    --muted:#75695c;
+    --border:#e7ddd0;
+    --accent:#b5432b;
+    --accent-dark:#8f321c;
+    --accent-soft:#f3e2da;
+    --good:#3f7a4e;
+    --good-soft:#e6f2e8;
+    --bad:#b3261e;
+    --bad-soft:#fbe9e7;
+    --radius:14px;
+    --shadow:0 2px 10px rgba(60,40,20,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1c1712;
+      --panel:#26201a;
+      --ink:#f1e9dd;
+      --muted:#b8a894;
+      --border:#3a2f24;
+      --accent:#e0714f;
+      --accent-dark:#f0916f;
+      --accent-soft:#3a271f;
+      --good:#7bc491;
+      --good-soft:#1e2e22;
+      --bad:#f0796f;
+      --bad-soft:#3a201d;
+      --shadow:0 2px 14px rgba(0,0,0,0.35);
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Segoe UI","Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.top{
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    padding:28px 20px 22px;
+    text-align:center;
+  }
+  header.top .bsd{ font-size:13px; opacity:.85; margin-bottom:6px;}
+  header.top h1{ margin:4px 0 6px; font-size:22px;}
+  header.top p{ margin:0; font-size:13.5px; opacity:.92;}
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:18px 16px 0;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 18px 20px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+  }
+  .card h2{
+    font-size:16px;
+    margin:0 0 4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h2 .num{
+    background:var(--accent-soft);
+    color:var(--accent);
+    width:24px;height:24px;
+    border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;
+    flex:none;
+  }
+  .card .sub{ color:var(--muted); font-size:13px; margin:0 0 14px;}
+  label{
+    display:block;
+    font-size:13.5px;
+    font-weight:600;
+    margin:12px 0 5px;
+  }
+  label.req::after{
+    content:" *";
+    color:var(--bad);
+  }
+  input[type=text],input[type=tel],select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:15px;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:inherit;
+  }
+  input:focus,select:focus{
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .hint{ font-size:12px; color:var(--muted); margin-top:4px;}
+  .track-toggle{
+    display:flex;
+    gap:10px;
+    margin-top:6px;
+  }
+  .track-toggle button{
+    flex:1;
+    padding:12px 8px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .track-toggle button.active{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+    color:var(--accent);
+  }
+  fieldset.day{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px 14px;
+    margin:0 0 14px;
+  }
+  fieldset.day legend{
+    font-weight:700;
+    padding:0 6px;
+    font-size:14.5px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    padding:8px 4px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .opt:hover{ background:var(--accent-soft); }
+  .opt input{ margin-top:3px; flex:none;}
+  .opt .txt{ font-size:14px; }
+  .opt .txt .gf{
+    display:inline-block;
+    margin-inline-start:6px;
+    font-size:11px;
+    background:var(--good-soft);
+    color:var(--good);
+    padding:1px 6px;
+    border-radius:20px;
+  }
+  .opt.none .txt{ color:var(--bad); font-weight:600; }
+  .custom-input{
+    margin-inline-start:26px;
+    margin-top:4px;
+    display:none;
+  }
+  .custom-input.show{ display:block; }
+  .always-box{
+    margin-top:8px;
+    padding:10px 12px;
+    background:var(--bg);
+    border-radius:10px;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  details.info{
+    margin-top:6px;
+  }
+  details.info summary{
+    cursor:pointer;
+    font-weight:600;
+    font-size:13.5px;
+    color:var(--accent);
+  }
+  details.info .body{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:8px;
+    white-space:pre-line;
+  }
+  .card-number-wrap{ display:flex; gap:8px; }
+  .card-number-wrap input{ text-align:center; letter-spacing:1px; font-variant-numeric:tabular-nums;}
+  .payment-warn{
+    background:var(--bad-soft);
+    color:var(--bad);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    margin-top:10px;
+    display:none;
+  }
+  .payment-warn.show{ display:block; }
+  .privacy{
+    background:var(--good-soft);
+    color:var(--good);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    margin-top:14px;
+  }
+  .summary-box{
+    background:var(--bg);
+    border:1px dashed var(--border);
+    border-radius:10px;
+    padding:14px;
+    font-size:13.5px;
+    white-space:pre-wrap;
+    font-family:ui-monospace,"Courier New",monospace;
+    line-height:1.7;
+    min-height:60px;
+  }
+  .missing-list{
+    font-size:13px;
+    color:var(--bad);
+    margin:10px 0 0;
+    padding-inline-start:18px;
+  }
+  .actions{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    flex:1;
+    min-width:140px;
+    padding:13px 14px;
+    border-radius:12px;
+    border:none;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-primary{
+    background:#25d366;
+    color:#0b3d1f;
+  }
+  .btn-primary:disabled{
+    background:var(--border);
+    color:var(--muted);
+    cursor:not-allowed;
+  }
+  .btn-secondary{
+    background:var(--accent-soft);
+    color:var(--accent);
+  }
+  footer.bottom{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:0 16px;
+    color:var(--muted);
+    font-size:12px;
+    text-align:center;
+  }
+  .badge-track{
+    display:inline-block;
+    font-size:11px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    padding:2px 8px;
+    border-radius:20px;
+    margin-inline-start:6px;
+  }
+  .form-preview-wrap{
+    background:#f1ece3;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    justify-content:center;
+  }
+  #formCanvas{
+    width:100%;
+    max-width:420px;
+    height:auto;
+    background:#fff;
+    box-shadow:0 4px 18px rgba(30,20,10,0.18);
+    border-radius:4px;
+  }
+  @media print{
+    body *{ visibility:hidden; }
+    #formCanvas, #formCanvas *{ visibility:visible; }
+    #formCanvas{
+      position:absolute;
+      inset:0;
+      width:100%;
+      max-width:none;
+      box-shadow:none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="bsd">בס"ד</div>
+  <h1>המטבחון של סימה 🍽️ – טופס הרשמה להזנה</h1>
+  <p>כשר בהשגחת הרב אלחרר · הכלי הזה עוזר לכם למלא את הטופס ולשלוח אותו בוואטסאפ</p>
+</header>
+
+<main>
+
+  <div class="card">
+    <details class="info">
+      <summary>ℹ️ תזכורת – ההנחיות החשובות מבית העסק</summary>
+      <div class="body">• עלות מנה: 32 ₪ (30 ₪ למשפחה עם 2 ילדים ומעלה, בהזמנה שבועית של 6 מנות לפחות).
+• תשלום בכרטיס אשראי בלבד, חיוב חודשי בעשרת הימים הראשונים של החודש עבור החודש הקודם. לא מתקבל אמריקן אקספרס.
+• שינוי תפריט קבוע – עד ה-20 לחודש, עבור החודש הבא, בהודעת וואטסאפ בלבד.
+• ביטול מנה בגלל היעדרות (מחלה/טיול וכד') – עד השעה 9:00 בבוקר של אותו יום, בהודעת וואטסאפ. אחרי השעה 9:00 לא ניתן לבטל ותחויבו על המנה.
+• הפסקת ההסעדה לגמרי – מראש חודש לפני.
+• כל התכתובת מול צוות המטבחון בלבד, בוואטסאפ למספר 052-3715015.</div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">1</span> פרטי התלמיד/ה</h2>
+    <p class="sub">כפי שיופיעו בטופס הרשמה</p>
+
+    <label class="req" for="studentName">שם התלמיד/ה</label>
+    <input type="text" id="studentName" placeholder="שם פרטי ושם משפחה" autocomplete="off">
+
+    <label class="req" for="phone">מספר טלפון נייד לבירורים</label>
+    <input type="tel" id="phone" placeholder="05X-XXXXXXX" autocomplete="off">
+  </div>
+
+  <div class="card">
+    <h2><span class="num">2</span> סוג התפריט</h2>
+    <p class="sub">בחרו בשרי או צמחוני – זה יקבע אילו מנות יוצגו לכל יום</p>
+    <div class="track-toggle">
+      <button type="button" id="btnMeat" class="active" onclick="setTrack('meat')">בשרי</button>
+      <button type="button" id="btnVeg" onclick="setTrack('veg')">צמחוני</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">3</span> פירוט התפריט לפי ימים</h2>
+    <p class="sub">לכל יום: בחרו אחת מהמנות, הרכיבו מנה מהתוספות הקבועות, או סמנו X אם אין הסעדה באותו יום</p>
+    <div id="daysContainer"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">4</span> פרטי תשלום (כרטיס אשראי)</h2>
+    <p class="sub">בהתאם לטופס המקורי – התשלום מתבצע רק בכרטיס אשראי, לא מתקבל אמריקן אקספרס</p>
+
+    <label class="req" for="cardHolder">שם בעל/ת הכרטיס</label>
+    <input type="text" id="cardHolder" autocomplete="off">
+
+    <label class="req" for="cardNumber">מספר כרטיס אשראי (16 ספרות)</label>
+    <div class="card-number-wrap">
+      <input type="text" id="cardNumber" inputmode="numeric" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off">
+    </div>
+    <div id="cardWarn" class="payment-warn"></div>
+
+    <div class="row2">
+      <div>
+        <label class="req" for="cardExpiry">תוקף (MM/YY)</label>
+        <input type="text" id="cardExpiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="off">
+      </div>
+      <div>
+        <label class="req" for="cardCvv">3 ספרות בגב הכרטיס</label>
+        <input type="text" id="cardCvv" inputmode="numeric" maxlength="3" placeholder="XXX" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="privacy">
+      🔒 כל פרטי האשראי מוקלדים ומעובדים בדפדפן שלכם בלבד. האתר הזה לא שולח, לא שומר ולא מעביר את הפרטים לשום שרת – הם משמשים רק כדי להרכיב עבורכם את הודעת הוואטסאפ, ואתם אלה ששולחים אותה בעצמכם. שדות האשראי גם לא נשמרים בדפדפן בין ביקורים.
+    </div>
+  </div>
+
+  <div class="card" id="formOutputCard">
+    <h2><span class="num">5</span> הטופס המוכן – להורדה ולשליחה</h2>
+    <p class="sub">זה הטופס המלא, בדיוק כמו הטופס המקורי. הורידו אותו כתמונה ושלחו אותו בוואטסאפ למטבחון (052-3715015), או הדפיסו אותו</p>
+
+    <ul class="missing-list" id="missingList"></ul>
+
+    <div class="form-preview-wrap">
+      <canvas id="formCanvas" width="827" height="1169"></canvas>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="downloadBtn" disabled onclick="downloadFormImage()">⬇️ הורדת הטופס כתמונה</button>
+      <button class="btn btn-secondary" id="printBtn" disabled onclick="printForm()">🖨️ הדפסה</button>
+    </div>
+
+    <details class="info" style="margin-top:14px;">
+      <summary>אפשרות נוספת – שליחת הפרטים כהודעת טקסט בוואטסאפ</summary>
+      <div class="body">
+        <div class="summary-box" id="summaryBox">מלאו את הפרטים למעלה כדי לראות כאן את ההודעה…</div>
+        <div class="actions">
+          <button class="btn btn-primary" id="sendBtn" disabled onclick="sendWhatsapp()">📲 שליחה בוואטסאפ (טקסט)</button>
+          <button class="btn btn-secondary" onclick="copyText()">📋 העתקת הטקסט</button>
+        </div>
+      </div>
+    </details>
+  </div>
+
+</main>
+
+<footer class="bottom">
+  כלי עזר בלתי-רשמי למילוי הטופס של המטבחון של סימה · אינו קשור לבית העסק · כל הנתונים נשארים במכשיר שלכם בלבד
+</footer>
+
+<script>
+const MENU = {
+  meat: {
+    label: "בשרי",
+    days: [
+      { key:"sun", name:"יום א׳", options:[
+          "רול שווארמה + צ'יפס + סלט",
+          "קציצות בקר + אורז לבן + שעועית ירוקה"
+        ]},
+      { key:"mon", name:"יום ב׳", options:[
+          "נאגטס עוף + אורז לבן + אפונה",
+          "שניצל + פסטה + תירס"
+        ]},
+      { key:"tue", name:"יום ג׳", options:[
+          "שוקיים עוף בגריל + קוסקוס + ירקות",
+          "קבב + אורז לבן + שעועית לבנה"
+        ]},
+      { key:"wed", name:"יום ד׳", options:[
+          "כדורי פירה + פסטה בולונז",
+          "מוקפץ + נודלס עם ירקות + אפונה"
+        ]},
+      { key:"thu", name:"יום ה׳", options:[
+          "קציצות עוף + פתיתים + שעועית ירוקה",
+          "משה בתיבה (דג) + פסטה + תירס"
+        ]},
+    ],
+    always: ["קציצות בשר","קציצות עוף","שניצל","אורז לבן","פירה","תפוחי אדמה","אפונה","שעועית ירוקה","סלט ירקות","חמוצים"],
+    glutenFreeNote: "ללא גלוטן: קציצות בשר, עוף בגריל, קבב, אורז לבן, אפונה, שעועית ירוקה, תירס, שעועית לבנה, תפו\"א אפוי."
+  },
+  veg: {
+    label: "צמחוני",
+    days: [
+      { key:"sun", name:"יום א׳", options:[ "אורז + אפונה + קציצות כרובית" ]},
+      { key:"mon", name:"יום ב׳", options:[ "פסטה + תירס + אגרול" ]},
+      { key:"tue", name:"יום ג׳", options:[ "קוסקוס + ירקות + פסטל" ]},
+      { key:"wed", name:"יום ד׳", options:[ "נודלס עם ירקות + אפונה + דג מטוגן" ]},
+      { key:"thu", name:"יום ה׳", options:[ "פתיתים + אפונה + פלאפל" ]},
+    ],
+    always: [],
+    glutenFreeNote: ""
+  }
+};
+
+const RESTAURANT_PHONE_INTL = "972523715015"; // 052-3715015
+
+let currentTrack = "meat";
+let dayState = {}; // key -> {choice: 'opt0'|'opt1'|'custom'|'none', customText: ''}
+
+function setTrack(track){
+  currentTrack = track;
+  document.getElementById("btnMeat").classList.toggle("active", track === "meat");
+  document.getElementById("btnVeg").classList.toggle("active", track === "veg");
+  dayState = {};
+  renderDays();
+  updateSummary();
+}
+
+function renderDays(){
+  const menu = MENU[currentTrack];
+  const container = document.getElementById("daysContainer");
+  container.innerHTML = "";
+
+  menu.days.forEach((day, idx) => {
+    if(!dayState[day.key]) dayState[day.key] = { choice: null, customText: "" };
+
+    const fs = document.createElement("fieldset");
+    fs.className = "day";
+
+    const legend = document.createElement("legend");
+    legend.textContent = day.name;
+    fs.appendChild(legend);
+
+    day.options.forEach((optText, optIdx) => {
+      const id = `${day.key}_opt${optIdx}`;
+      const label = document.createElement("label");
+      label.className = "opt";
+      label.innerHTML = `<input type="radio" name="${day.key}" id="${id}" value="opt${optIdx}">
+        <span class="txt">${optText}</span>`;
+      fs.appendChild(label);
+    });
+
+    // custom option
+    const customId = `${day.key}_custom`;
+    const customLabel = document.createElement("label");
+    customLabel.className = "opt";
+    customLabel.innerHTML = `<input type="radio" name="${day.key}" id="${customId}" value="custom">
+      <span class="txt">הרכבה חופשית מהתוספות הקבועות</span>`;
+    fs.appendChild(customLabel);
+
+    const customInputWrap = document.createElement("div");
+    customInputWrap.className = "custom-input";
+    customInputWrap.id = `${day.key}_customWrap`;
+    customInputWrap.innerHTML = `<input type="text" id="${day.key}_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות">`;
+    fs.appendChild(customInputWrap);
+
+    // none option
+    const noneId = `${day.key}_none`;
+    const noneLabel = document.createElement("label");
+    noneLabel.className = "opt none";
+    noneLabel.innerHTML = `<input type="radio" name="${day.key}" id="${noneId}" value="none">
+      <span class="txt">X – אין הסעדה ביום זה</span>`;
+    fs.appendChild(noneLabel);
+
+    container.appendChild(fs);
+  });
+
+  if(menu.always.length){
+    const box = document.createElement("div");
+    box.className = "always-box";
+    box.innerHTML = `בכל יום ניתן גם לבחור מתוך: ${menu.always.join(", ")}.` +
+      (menu.glutenFreeNote ? `<br>${menu.glutenFreeNote}` : "");
+    container.appendChild(box);
+  }
+
+  // wire events
+  menu.days.forEach(day => {
+    const radios = document.querySelectorAll(`input[name="${day.key}"]`);
+    radios.forEach(r => r.addEventListener("change", () => onDayChange(day.key)));
+    const customField = document.getElementById(`${day.key}_customField`);
+    customField.addEventListener("input", () => {
+      dayState[day.key].customText = customField.value;
+      updateSummary();
+    });
+  });
+}
+
+function onDayChange(dayKey){
+  const checked = document.querySelector(`input[name="${dayKey}"]:checked`);
+  const wrap = document.getElementById(`${dayKey}_customWrap`);
+  if(checked){
+    dayState[dayKey].choice = checked.value;
+    wrap.classList.toggle("show", checked.value === "custom");
+  }
+  updateSummary();
+}
+
+function dayMenuText(day){
+  const menu = MENU[currentTrack];
+  const state = dayState[day.key];
+  if(!state || !state.choice) return null;
+  if(state.choice === "none") return "X (אין הסעדה)";
+  if(state.choice === "custom") return state.customText.trim() ? state.customText.trim() : null;
+  const idx = parseInt(state.choice.replace("opt",""), 10);
+  return day.options[idx];
+}
+
+function formatCardNumber(value){
+  const digits = value.replace(/\D/g,"").slice(0,16);
+  return digits.replace(/(.{4})/g,"$1-").replace(/-$/,"");
+}
+
+function formatExpiry(value){
+  let digits = value.replace(/\D/g,"").slice(0,4);
+  if(digits.length >= 3) digits = digits.slice(0,2) + "/" + digits.slice(2);
+  return digits;
+}
+
+function checkCardWarnings(){
+  const raw = document.getElementById("cardNumber").value.replace(/\D/g,"");
+  const warnBox = document.getElementById("cardWarn");
+  let msgs = [];
+  if(raw.length > 0 && (raw.startsWith("34") || raw.startsWith("37"))){
+    msgs.push("⚠️ המספר מתחיל כמו כרטיס אמריקן אקספרס – בית העסק לא מקבל אמריקן אקספרס.");
+  }
+  if(raw.length > 0 && raw.length < 16){
+    msgs.push(`הוזנו ${raw.length} ספרות בלבד – נדרשות 16.`);
+  }
+  if(msgs.length){
+    warnBox.textContent = msgs.join(" ");
+    warnBox.classList.add("show");
+  } else {
+    warnBox.classList.remove("show");
+  }
+}
+
+function getFormData(){
+  const name = document.getElementById("studentName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const holder = document.getElementById("cardHolder").value.trim();
+  const cardNumber = document.getElementById("cardNumber").value.trim();
+  const expiry = document.getElementById("cardExpiry").value.trim();
+  const cvv = document.getElementById("cardCvv").value.trim();
+  const trackLabel = MENU[currentTrack].label;
+
+  const missing = [];
+  if(!name) missing.push("שם התלמיד/ה");
+  if(!phone) missing.push("מספר טלפון לבירורים");
+  if(!holder) missing.push("שם בעל/ת הכרטיס");
+  if(cardNumber.replace(/\D/g,"").length !== 16) missing.push("מספר כרטיס אשראי (16 ספרות)");
+  if(!/^\d{2}\/\d{2}$/.test(expiry)) missing.push("תוקף כרטיס (MM/YY)");
+  if(!/^\d{3}$/.test(cvv)) missing.push("3 ספרות בגב הכרטיס");
+
+  const menu = MENU[currentTrack];
+  const days = menu.days.map(day => {
+    const text = dayMenuText(day);
+    if(!text) missing.push(`בחירה עבור ${day.name}`);
+    return { name: day.name, text };
+  });
+
+  return { name, phone, holder, cardNumber, expiry, cvv, trackLabel, days, missing };
+}
+
+function buildSummaryText(data){
+  const dayLines = data.days.map(d => `${d.name} - ${d.text || "_____"}`);
+  const lines = [
+    "טופס פרטים להרשמה – המטבחון של סימה",
+    "",
+    `שם התלמיד/ה: ${data.name || "____"}`,
+    `טלפון נייד לבירורים: ${data.phone || "____"}`,
+    `סוג תפריט: ${data.trackLabel}`,
+    "",
+    `שם בעל/ת הכרטיס: ${data.holder || "____"}`,
+    `מספר כרטיס אשראי: ${data.cardNumber || "____"}`,
+    `תוקף כרטיס: ${data.expiry || "__/__"}`,
+    `3 ספרות בגב הכרטיס: ${data.cvv || "___"}`,
+    "",
+    "פירוט תפריט:",
+    ...dayLines
+  ];
+  return lines.join("\n");
+}
+
+function wrapLine(ctx, text, maxWidth){
+  const words = text.split(" ");
+  const lines = [];
+  let current = "";
+  words.forEach(word => {
+    const test = current ? current + " " + word : word;
+    if(ctx.measureText(test).width > maxWidth && current){
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  });
+  if(current) lines.push(current);
+  return lines;
+}
+
+function renderFormCanvas(data){
+  const canvas = document.getElementById("formCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0,0,W,H);
+  ctx.direction = "rtl";
+
+  const rightX = W - 70;
+  const leftX = 70;
+  const centerX = W / 2;
+  const maxWidth = W - 140;
+
+  let y = 60;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#2c2620";
+  ctx.font = 'bold 26px "Segoe UI", Arial, sans-serif';
+  ctx.fillText('בס"ד', centerX, y);
+
+  y += 32;
+  ctx.font = '15px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = "#75695c";
+  ctx.fillText("טלפון להזמנות: 08-9265368  |  חירום: 050-5368405", centerX, y);
+
+  y += 26;
+  ctx.strokeStyle = "#e7ddd0";
+  ctx.beginPath(); ctx.moveTo(leftX, y); ctx.lineTo(rightX, y); ctx.stroke();
+
+  y += 38;
+  ctx.font = 'bold 19px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = "#b5432b";
+  ctx.fillText("כשר בהשגחת הרב אלחרר", centerX, y);
+
+  y += 46;
+  ctx.font = 'bold 30px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = "#2c2620";
+  ctx.fillText("טופס פרטים להרשמה", centerX, y);
+
+  y += 56;
+  ctx.textAlign = "right";
+
+  const fields = [
+    ["סוג תפריט", data.trackLabel],
+    ["שם התלמיד/ה", data.name],
+    ["טלפון נייד לבירורים", data.phone],
+    ["שם בעל/ת הכרטיס", data.holder],
+    ["מספר כרטיס אשראי", data.cardNumber],
+    ["תוקף כרטיס", data.expiry],
+    ["3 ספרות בגב הכרטיס", data.cvv],
+  ];
+
+  fields.forEach(([label, value]) => {
+    ctx.font = 'bold 18px "Segoe UI", Arial, sans-serif';
+    ctx.fillStyle = "#2c2620";
+    ctx.fillText(label + ":", rightX, y);
+    const labelWidth = ctx.measureText(label + ":   ").width;
+    ctx.font = '18px "Segoe UI", Arial, sans-serif';
+    ctx.fillStyle = "#b5432b";
+    ctx.fillText(value || "—", rightX - labelWidth, y);
+    y += 40;
+  });
+
+  y += 16;
+  ctx.strokeStyle = "#e7ddd0";
+  ctx.beginPath(); ctx.moveTo(leftX, y); ctx.lineTo(rightX, y); ctx.stroke();
+
+  y += 42;
+  ctx.font = 'bold 20px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = "#2c2620";
+  ctx.fillText("פירוט תפריט:", rightX, y);
+
+  y += 36;
+  ctx.font = '17px "Segoe UI", Arial, sans-serif';
+  data.days.forEach(day => {
+    const line = `${day.name} - ${day.text || "_____"}`;
+    const wrapped = wrapLine(ctx, line, maxWidth);
+    wrapped.forEach(l => {
+      ctx.fillText(l, rightX, y);
+      y += 27;
+    });
+    y += 10;
+  });
+
+  ctx.textAlign = "center";
+  ctx.font = '13px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = "#9a8c7a";
+  const dateStr = new Date().toLocaleDateString("he-IL");
+  ctx.fillText(`טופס זה הופק בתאריך ${dateStr} · כלי עזר בלתי-רשמי · לשליחה בוואטסאפ ל-052-3715015`, centerX, H - 40);
+}
+
+function updateSummary(){
+  checkCardWarnings();
+  const data = getFormData();
+
+  document.getElementById("summaryBox").textContent = buildSummaryText(data);
+
+  const missingList = document.getElementById("missingList");
+  missingList.innerHTML = "";
+  data.missing.forEach(m => {
+    const li = document.createElement("li");
+    li.textContent = m;
+    missingList.appendChild(li);
+  });
+
+  const ok = data.missing.length === 0;
+  document.getElementById("sendBtn").disabled = !ok;
+  document.getElementById("downloadBtn").disabled = !ok;
+  document.getElementById("printBtn").disabled = !ok;
+
+  renderFormCanvas(data);
+}
+
+function sendWhatsapp(){
+  const data = getFormData();
+  if(data.missing.length) return;
+  const url = `https://wa.me/${RESTAURANT_PHONE_INTL}?text=${encodeURIComponent(buildSummaryText(data))}`;
+  window.open(url, "_blank");
+}
+
+function copyText(){
+  const data = getFormData();
+  navigator.clipboard.writeText(buildSummaryText(data)).then(() => {
+    const btn = event.target.closest("button");
+    const original = btn.textContent;
+    btn.textContent = "✅ הועתק!";
+    setTimeout(() => { btn.textContent = original; }, 1500);
+  }).catch(() => {
+    alert("לא ניתן היה להעתיק אוטומטית — יש לסמן ולהעתיק את הטקסט ידנית.");
+  });
+}
+
+function downloadFormImage(){
+  const data = getFormData();
+  if(data.missing.length) return;
+  const canvas = document.getElementById("formCanvas");
+  const safeName = (data.name || "טופס").replace(/[\\\/:*?"<>|]/g, "");
+  const link = document.createElement("a");
+  link.download = `טופס-הרשמה-${safeName}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function printForm(){
+  const data = getFormData();
+  if(data.missing.length) return;
+  window.print();
+}
+
+// wire top-level field listeners
+["studentName","phone","cardHolder"].forEach(id => {
+  document.getElementById(id).addEventListener("input", updateSummary);
+});
+document.getElementById("cardNumber").addEventListener("input", (e) => {
+  const cursorFromEnd = e.target.value.length - e.target.selectionStart;
+  e.target.value = formatCardNumber(e.target.value);
+  const pos = Math.max(0, e.target.value.length - cursorFromEnd);
+  e.target.setSelectionRange(pos, pos);
+  updateSummary();
+});
+document.getElementById("cardExpiry").addEventListener("input", (e) => {
+  e.target.value = formatExpiry(e.target.value);
+  updateSummary();
+});
+document.getElementById("cardCvv").addEventListener("input", (e) => {
+  e.target.value = e.target.value.replace(/\D/g,"").slice(0,3);
+  updateSummary();
+});
+
+renderDays();
+updateSummary();
+</script>
+
+</body>
+</html>
