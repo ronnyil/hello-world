@@ -320,6 +320,7 @@
 </header>
 
 <main>
+<form id="mainForm" autocomplete="on" novalidate onsubmit="return false;">
 
   <div class="card">
     <details class="info">
@@ -338,10 +339,10 @@
     <p class="sub">כפי שיופיעו בטופס הרשמה</p>
 
     <label class="req" for="studentName">שם התלמיד/ה</label>
-    <input type="text" id="studentName" placeholder="שם פרטי ושם משפחה" autocomplete="off">
+    <input type="text" id="studentName" name="studentName" placeholder="שם פרטי ושם משפחה" autocomplete="off">
 
     <label class="req" for="phone">מספר טלפון נייד לבירורים</label>
-    <input type="tel" id="phone" placeholder="05X-XXXXXXX" autocomplete="off">
+    <input type="tel" id="phone" name="tel" placeholder="05X-XXXXXXX" autocomplete="tel">
   </div>
 
   <div class="card">
@@ -364,22 +365,22 @@
     <p class="sub">בהתאם לטופס המקורי – התשלום מתבצע רק בכרטיס אשראי, לא מתקבל אמריקן אקספרס</p>
 
     <label class="req" for="cardHolder">שם בעל/ת הכרטיס</label>
-    <input type="text" id="cardHolder" autocomplete="off">
+    <input type="text" id="cardHolder" name="cc-name" autocomplete="cc-name">
 
     <label class="req" for="cardNumber">מספר כרטיס אשראי (16 ספרות)</label>
     <div class="card-number-wrap">
-      <input type="text" id="cardNumber" inputmode="numeric" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off">
+      <input type="text" id="cardNumber" name="cc-number" inputmode="numeric" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="cc-number">
     </div>
     <div id="cardWarn" class="payment-warn"></div>
 
     <div class="row2">
       <div>
         <label class="req" for="cardExpiry">תוקף (MM/YY)</label>
-        <input type="text" id="cardExpiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="off">
+        <input type="text" id="cardExpiry" name="cc-exp" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp">
       </div>
       <div>
         <label class="req" for="cardCvv">3 ספרות בגב הכרטיס</label>
-        <input type="text" id="cardCvv" inputmode="numeric" maxlength="3" placeholder="XXX" autocomplete="off">
+        <input type="text" id="cardCvv" name="cc-csc" inputmode="numeric" maxlength="3" placeholder="XXX" autocomplete="cc-csc">
       </div>
     </div>
 
@@ -399,8 +400,8 @@
     </div>
 
     <div class="actions">
-      <button class="btn btn-primary" id="downloadBtn" disabled onclick="downloadFormImage()">⬇️ הורדת הטופס כתמונה</button>
-      <button class="btn btn-secondary" id="printBtn" disabled onclick="printForm()">🖨️ הדפסה</button>
+      <button type="button" class="btn btn-primary" id="downloadBtn" disabled onclick="downloadFormImage()">⬇️ הורדת הטופס כתמונה</button>
+      <button type="button" class="btn btn-secondary" id="printBtn" disabled onclick="printForm()">🖨️ הדפסה</button>
     </div>
 
     <details class="info" style="margin-top:14px;">
@@ -408,13 +409,14 @@
       <div class="body">
         <div class="summary-box" id="summaryBox">מלאו את הפרטים למעלה כדי לראות כאן את ההודעה…</div>
         <div class="actions">
-          <button class="btn btn-primary" id="sendBtn" disabled onclick="sendWhatsapp()">📲 שליחה בוואטסאפ (טקסט)</button>
-          <button class="btn btn-secondary" onclick="copyText()">📋 העתקת הטקסט</button>
+          <button type="button" class="btn btn-primary" id="sendBtn" disabled onclick="sendWhatsapp()">📲 שליחה בוואטסאפ (טקסט)</button>
+          <button type="button" class="btn btn-secondary" onclick="copyText()">📋 העתקת הטקסט</button>
         </div>
       </div>
     </details>
   </div>
 
+</form>
 </main>
 
 <footer class="bottom">
