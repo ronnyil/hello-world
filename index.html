@@ -417,7 +417,55 @@
   <div class="card">
     <h2><span class="num">2</span> פירוט התפריט לפי ימים</h2>
     <p class="sub">לכל יום ניתן לבחור כל אחת מהאפשרויות (בשרי או צמחוני, ללא צורך לבחור מסלול קבוע), להרכיב מנה מהתוספות הקבועות, או לסמן X אם אין הסעדה באותו יום</p>
-    <div id="daysContainer"></div>
+    <div id="daysContainer">
+      <fieldset class="day">
+        <legend>יום א׳</legend>
+        <label class="opt"><input type="radio" name="sun" id="sun_opt0" value="opt0"><span class="txt">רול שווארמה + צ'יפס + סלט<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="sun" id="sun_opt1" value="opt1"><span class="txt">קציצות בקר + אורז לבן + שעועית ירוקה<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="sun" id="sun_opt2" value="opt2"><span class="txt">אורז + אפונה + קציצות כרובית<span class="track-tag veg">צמחוני</span></span></label>
+        <label class="opt"><input type="radio" name="sun" id="sun_custom" value="custom"><span class="txt">הרכבה חופשית מהתוספות הקבועות</span></label>
+        <div class="custom-input" id="sun_customWrap"><input type="text" id="sun_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות"></div>
+        <label class="opt none"><input type="radio" name="sun" id="sun_none" value="none"><span class="txt">X – אין הסעדה ביום זה</span></label>
+      </fieldset>
+      <fieldset class="day">
+        <legend>יום ב׳</legend>
+        <label class="opt"><input type="radio" name="mon" id="mon_opt0" value="opt0"><span class="txt">נאגטס עוף + אורז לבן + אפונה<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="mon" id="mon_opt1" value="opt1"><span class="txt">שניצל + פסטה + תירס<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="mon" id="mon_opt2" value="opt2"><span class="txt">פסטה + תירס + אגרול<span class="track-tag veg">צמחוני</span></span></label>
+        <label class="opt"><input type="radio" name="mon" id="mon_custom" value="custom"><span class="txt">הרכבה חופשית מהתוספות הקבועות</span></label>
+        <div class="custom-input" id="mon_customWrap"><input type="text" id="mon_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות"></div>
+        <label class="opt none"><input type="radio" name="mon" id="mon_none" value="none"><span class="txt">X – אין הסעדה ביום זה</span></label>
+      </fieldset>
+      <fieldset class="day">
+        <legend>יום ג׳</legend>
+        <label class="opt"><input type="radio" name="tue" id="tue_opt0" value="opt0"><span class="txt">שוקיים עוף בגריל + קוסקוס + ירקות<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="tue" id="tue_opt1" value="opt1"><span class="txt">קבב + אורז לבן + שעועית לבנה<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="tue" id="tue_opt2" value="opt2"><span class="txt">קוסקוס + ירקות + פסטל<span class="track-tag veg">צמחוני</span></span></label>
+        <label class="opt"><input type="radio" name="tue" id="tue_custom" value="custom"><span class="txt">הרכבה חופשית מהתוספות הקבועות</span></label>
+        <div class="custom-input" id="tue_customWrap"><input type="text" id="tue_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות"></div>
+        <label class="opt none"><input type="radio" name="tue" id="tue_none" value="none"><span class="txt">X – אין הסעדה ביום זה</span></label>
+      </fieldset>
+      <fieldset class="day">
+        <legend>יום ד׳</legend>
+        <label class="opt"><input type="radio" name="wed" id="wed_opt0" value="opt0"><span class="txt">כדורי פירה + פסטה בולונז<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="wed" id="wed_opt1" value="opt1"><span class="txt">מוקפץ + נודלס עם ירקות + אפונה<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="wed" id="wed_opt2" value="opt2"><span class="txt">נודלס עם ירקות + אפונה + דג מטוגן<span class="track-tag veg">צמחוני</span></span></label>
+        <label class="opt"><input type="radio" name="wed" id="wed_custom" value="custom"><span class="txt">הרכבה חופשית מהתוספות הקבועות</span></label>
+        <div class="custom-input" id="wed_customWrap"><input type="text" id="wed_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות"></div>
+        <label class="opt none"><input type="radio" name="wed" id="wed_none" value="none"><span class="txt">X – אין הסעדה ביום זה</span></label>
+      </fieldset>
+      <fieldset class="day">
+        <legend>יום ה׳</legend>
+        <label class="opt"><input type="radio" name="thu" id="thu_opt0" value="opt0"><span class="txt">קציצות עוף + פתיתים + שעועית ירוקה<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="thu" id="thu_opt1" value="opt1"><span class="txt">משה בתיבה + פסטה + תירס<span class="track-tag meat">בשרי</span></span></label>
+        <label class="opt"><input type="radio" name="thu" id="thu_opt2" value="opt2"><span class="txt">פתיתים + אפונה + פלאפל<span class="track-tag veg">צמחוני</span></span></label>
+        <label class="opt"><input type="radio" name="thu" id="thu_custom" value="custom"><span class="txt">הרכבה חופשית מהתוספות הקבועות</span></label>
+        <div class="custom-input" id="thu_customWrap"><input type="text" id="thu_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות"></div>
+        <label class="opt none"><input type="radio" name="thu" id="thu_none" value="none"><span class="txt">X – אין הסעדה ביום זה</span></label>
+      </fieldset>
+      <div class="always-box">בכל יום ניתן גם לבחור מתוך: קציצות בשר, קציצות עוף, שניצל, אורז לבן, פירה, תפוחי אדמה, אפונה, שעועית ירוקה, סלט ירקות, חמוצים.<br>ללא גלוטן: קציצות בשר, עוף בגריל, קבב, אורז לבן, אפונה, שעועית ירוקה, תירס, שעועית לבנה, תפו"א אפוי.</div>
+    </div>
+    <noscript><p class="hint">⚠️ הדפדפן הזה חוסם JavaScript, כך שלא ניתן למלא את שאר הטופס או ליצור את הקובץ לשליחה. אם אתם רואים את העמוד הזה כתצוגה מקדימה (לדוגמה מתוך קובץ שנשלח בוואטסאפ), פתחו אותו ב-Safari במקום זאת: הקישו על כפתור השיתוף ואז "פתח ב-Safari".</p></noscript>
   </div>
 
   <div class="card">
@@ -535,72 +583,22 @@ const MENU_DAYS = [
       { track:"veg", text:"פתיתים + אפונה + פלאפל" },
     ]},
 ];
-const ALWAYS_ITEMS = ["קציצות בשר","קציצות עוף","שניצל","אורז לבן","פירה","תפוחי אדמה","אפונה","שעועית ירוקה","סלט ירקות","חמוצים"];
-const GLUTEN_FREE_NOTE = "ללא גלוטן: קציצות בשר, עוף בגריל, קבב, אורז לבן, אפונה, שעועית ירוקה, תירס, שעועית לבנה, תפו\"א אפוי.";
 
 const RESTAURANT_PHONE_INTL = "972523715015"; // 052-3715015
-const TRACK_LABEL = { meat: "בשרי", veg: "צמחוני" };
 
 let dayState = {}; // key -> {choice: 'opt0'|'opt1'|'opt2'|'custom'|'none', customText: ''}
 
+// The day-by-day menu (fieldsets, radios, custom fields) is static HTML in
+// the page itself, not generated by JS - it needs to stay visible even if
+// a viewer (e.g. some in-app "preview" browsers) doesn't run JavaScript at
+// all. This just wires up the interactivity on top of that static markup.
 function renderDays(){
-  const container = document.getElementById("daysContainer");
-  container.innerHTML = "";
-
   MENU_DAYS.forEach(day => {
     if(!dayState[day.key]) dayState[day.key] = { choice: null, customText: "" };
 
-    const fs = document.createElement("fieldset");
-    fs.className = "day";
-
-    const legend = document.createElement("legend");
-    legend.textContent = day.name;
-    fs.appendChild(legend);
-
-    day.options.forEach((opt, optIdx) => {
-      const id = `${day.key}_opt${optIdx}`;
-      const label = document.createElement("label");
-      label.className = "opt";
-      const tagClass = opt.track === "veg" ? "veg" : "meat";
-      label.innerHTML = `<input type="radio" name="${day.key}" id="${id}" value="opt${optIdx}">
-        <span class="txt">${opt.text}<span class="track-tag ${tagClass}">${TRACK_LABEL[opt.track]}</span></span>`;
-      fs.appendChild(label);
-    });
-
-    // custom option
-    const customId = `${day.key}_custom`;
-    const customLabel = document.createElement("label");
-    customLabel.className = "opt";
-    customLabel.innerHTML = `<input type="radio" name="${day.key}" id="${customId}" value="custom">
-      <span class="txt">הרכבה חופשית מהתוספות הקבועות</span>`;
-    fs.appendChild(customLabel);
-
-    const customInputWrap = document.createElement("div");
-    customInputWrap.className = "custom-input";
-    customInputWrap.id = `${day.key}_customWrap`;
-    customInputWrap.innerHTML = `<input type="text" id="${day.key}_customField" placeholder="לדוגמה: שניצל + אורז לבן + סלט ירקות">`;
-    fs.appendChild(customInputWrap);
-
-    // none option
-    const noneId = `${day.key}_none`;
-    const noneLabel = document.createElement("label");
-    noneLabel.className = "opt none";
-    noneLabel.innerHTML = `<input type="radio" name="${day.key}" id="${noneId}" value="none">
-      <span class="txt">X – אין הסעדה ביום זה</span>`;
-    fs.appendChild(noneLabel);
-
-    container.appendChild(fs);
-  });
-
-  const box = document.createElement("div");
-  box.className = "always-box";
-  box.innerHTML = `בכל יום ניתן גם לבחור מתוך: ${ALWAYS_ITEMS.join(", ")}.<br>${GLUTEN_FREE_NOTE}`;
-  container.appendChild(box);
-
-  // wire events
-  MENU_DAYS.forEach(day => {
     const radios = document.querySelectorAll(`input[name="${day.key}"]`);
     radios.forEach(r => r.addEventListener("change", () => onDayChange(day.key)));
+
     const customField = document.getElementById(`${day.key}_customField`);
     customField.addEventListener("input", () => {
       dayState[day.key].customText = customField.value;
