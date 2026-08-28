@@ -95,7 +95,17 @@ def main(indices):
             page.evaluate("(data) => renderOrderPrintView(data)", data)
             pdf_path = os.path.join(OUT_DIR, base_name + ".pdf")
             page.emulate_media(media="print")
-            page.pdf(path=pdf_path, format="A4", print_background=True)
+            # Size the PDF page to the actual content instead of a fixed A4
+            # sheet - otherwise the (short) order form leaves a large blank
+            # area below it, which looks much sparser than the tightly
+            # cropped PNG.
+            content_height = page.evaluate("document.getElementById('printView').scrollHeight")
+            page.pdf(
+                path=pdf_path,
+                width="827px",
+                height=f"{content_height + 20}px",
+                print_background=True,
+            )
             page.emulate_media(media="screen")
 
             print(f"row {i+1}: {data['name']} -> {png_path} , {pdf_path}")
