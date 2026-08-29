@@ -21,7 +21,7 @@
     .pv-hr{ border:none; border-top:1px solid #e7ddd0; margin:16px 0; }
     .pv-kosher{ text-align:center; font-weight:700; font-size:15px; color:#b5432b; }
     .pv-title{ text-align:center; font-size:22px; margin:14px 0 4px; }
-    .pv-school{ text-align:center; font-size:19px; font-weight:700; color:#75695c; margin-bottom:14px; }
+    .pv-school{ text-align:center; font-size:22px; font-weight:700; color:#75695c; margin-bottom:14px; }
     .pv-row{ display:flex; justify-content:space-between; gap:14px; padding:7px 0; font-size:14px; }
     .pv-row .pv-label{ font-weight:700; }
     .pv-row .pv-value{ color:#b5432b; }
@@ -148,11 +148,11 @@ function layoutOrderForm(ctx, data, W, draw){
   ctx.font = 'bold 30px "Segoe UI", Arial, sans-serif';
   if(draw){ ctx.fillStyle = "#2c2620"; ctx.fillText("טופס פרטים להרשמה", centerX, y); }
 
-  y += 34;
-  ctx.font = 'bold 24px "Segoe UI", Arial, sans-serif';
+  y += 42;
+  ctx.font = 'bold 30px "Segoe UI", Arial, sans-serif';
   if(draw){ ctx.fillStyle = "#75695c"; ctx.fillText("אולפנת שעלבים", centerX, y); }
 
-  y += 44;
+  y += 50;
   ctx.textAlign = "right";
 
   const fields = [
