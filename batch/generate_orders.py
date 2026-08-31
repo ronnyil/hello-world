@@ -35,7 +35,7 @@ DAY_COLS = [
     'הזמנה ליום ה',
 ]
 
-NO_ORDER_VALUES = {"x", "אין", "כלום", "אין הזמנה"}
+NO_ORDER_VALUES = {"x", "אין", "כלום", "אין הזמנה", "❌"}
 
 def clean(s):
     return (s or "").strip()
