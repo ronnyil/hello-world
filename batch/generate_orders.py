@@ -19,6 +19,7 @@ import sys
 import os
 import base64
 from playwright.sync_api import sync_playwright
+from day_utils import DAY_NAMES, DAY_COLS, clean, day_text, student_name
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSV_PATH = os.path.join(HERE, "sima_meals.csv")
@@ -26,32 +27,12 @@ GENERATOR_HTML = "file://" + os.path.join(HERE, "order_form_generator.html")
 OUT_DIR = os.path.join(HERE, "output")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-DAY_NAMES = ["יום א׳", "יום ב׳", "יום ג׳", "יום ד׳", "יום ה׳"]
-DAY_COLS = [
-    'הזמנה ליום א ( ביום בו אין הזמנה כתבו X)',
-    'הזמנה ליום ב',
-    'הזמנה ליום ג',
-    'הזמנה ליום ד',
-    'הזמנה ליום ה',
-]
-
-NO_ORDER_VALUES = {"x", "אין", "כלום", "אין הזמנה", "❌"}
-
-def clean(s):
-    return (s or "").strip()
-
-def day_text(raw):
-    v = clean(raw)
-    if v.lower() in NO_ORDER_VALUES:
-        return "X (אין הסעדה)"
-    return v
-
 def row_to_data(row):
     days = []
     for name, col in zip(DAY_NAMES, DAY_COLS):
         days.append({"name": name, "text": day_text(row.get(col, ""))})
     return {
-        "name": clean(row.get('שם מלא של התלמידה', '')),
+        "name": student_name(row),
         "phone": clean(row.get('שם ומספר טלפון לברורים', '')),
         "holder": clean(row.get('שם בעל הכרטיס המשלם ', '')),
         "days": days,

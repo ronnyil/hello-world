@@ -1,16 +1,21 @@
 # Batch order-form generator
 
-Turns a CSV export of the "Sima" school-lunch order Google Form (one row per
-family) into a per-family order-form image (PNG) and real-text PDF, using
-the same visual design as the interactive form-filler (`../index.html`).
+Two tools that read the same CSV export of the "Sima" school-lunch order
+Google Form (one row per family):
+
+1. **Per-family order forms** — an order-form image (PNG) and real-text PDF
+   per family, using the same visual design as the interactive form-filler
+   (`../index.html`).
+2. **Daily kitchen checklist** — a single PDF, one page per weekday, listing
+   every girl with an order that day (alphabetical, with class shown and a
+   checkbox to tick off) — for the kitchen/staff, not per-family.
 
 ## Files (code only - see note below)
 
-- `order_form_generator.html` — an offscreen page with the canvas/print-view
-  rendering logic (adapted from the interactive site).
-- `generate_orders.py` — reads a CSV export and drives
-  `order_form_generator.html` through a headless browser to produce the
-  output files.
+- `day_utils.py` — shared CSV column names / "no meal that day" parsing used
+  by both generators below, so they treat the data the same way.
+- `order_form_generator.html` / `generate_orders.py` — per-family forms (1).
+- `checklist_generator.html` / `generate_checklist.py` — daily checklist (2).
 
 ## Usage
 
@@ -19,8 +24,11 @@ the same visual design as the interactive form-filler (`../index.html`).
 2. ```
    pip install playwright
    playwright install chromium   # one-time
-   python3 generate_orders.py             # generates output/*.png + *.pdf for all rows
-   python3 generate_orders.py 0 2 5       # just rows 1, 3, 6 (0-indexed)
+
+   python3 generate_orders.py             # per-family: output/*.png + *.pdf, all rows
+   python3 generate_orders.py 0 2 5       # per-family: just rows 1, 3, 6 (0-indexed)
+
+   python3 generate_checklist.py          # daily checklist: output/checklist.pdf
    ```
 
 ## Note on this data
