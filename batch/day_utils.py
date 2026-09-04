@@ -16,7 +16,7 @@ DAY_COLS = [
 # Anything a family has typed/tapped that means "no meal that day" - families
 # haven't been consistent about this, so the list grows as new phrasings
 # show up in real responses.
-NO_ORDER_VALUES = {"x", "אין", "כלום", "אין הזמנה", "❌", "בלי"}
+NO_ORDER_VALUES = {"x", "×", "אין", "כלום", "אין הזמנה", "❌", "בלי"}
 
 
 def clean(s):
