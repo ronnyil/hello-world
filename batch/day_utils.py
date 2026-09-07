@@ -42,3 +42,29 @@ def student_name(row):
 
 def student_class(row):
     return clean(row.get('כתה', ''))
+
+
+def dedupe_latest(rows):
+    """Collapse re-submissions: keep only the last row per student.
+
+    Families sometimes fill the form a second time to change their order.
+    The sheet keeps both rows, so counting them all would double-book the
+    student on any day that appears in both. Rows arrive in submission
+    order, so the later row wins.
+
+    Returns (kept_rows, superseded) where superseded lists
+    (student, dropped_row, kept_row) for reporting.
+    """
+    key_to_index = {}
+    order = []
+    superseded = []
+    for row in rows:
+        key = " ".join(student_name(row).split())
+        if key in key_to_index:
+            i = key_to_index[key]
+            superseded.append((key, order[i], row))
+            order[i] = row
+        else:
+            key_to_index[key] = len(order)
+            order.append(row)
+    return order, superseded

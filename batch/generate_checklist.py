@@ -10,7 +10,8 @@ Usage:
 import csv
 import os
 from playwright.sync_api import sync_playwright
-from day_utils import DAY_NAMES, DAY_COLS, is_no_order, student_name, student_class
+from day_utils import (DAY_NAMES, DAY_COLS, is_no_order, student_name,
+                       student_class, dedupe_latest)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSV_PATH = os.path.join(HERE, "sima_meals.csv")
@@ -34,6 +35,11 @@ def build_day_data(rows):
 def main():
     with open(CSV_PATH, encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
+
+    rows, superseded = dedupe_latest(rows)
+    for name, old, new in superseded:
+        print(f"re-submission: {name} - using {new['חותמת זמן']}, "
+              f"ignoring {old['חותמת זמן']}")
 
     day_data = build_day_data(rows)
     for d in day_data:
