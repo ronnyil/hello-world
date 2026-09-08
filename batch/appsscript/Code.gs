@@ -32,8 +32,20 @@ var CONFIG = {
   // How often to look for new instruction files.
   POLL_MINUTES: 5,
 
+  // Hard allowlist. Mail is sent ONLY to addresses listed here.
+  //
+  // This is deliberately enforced in the script rather than left to
+  // whoever writes the instruction file. An instruction naming any other
+  // address has that address dropped, and the omission is reported in
+  // the email. Adding a recipient is a decision made HERE, by a human,
+  // not something an instruction file can do on its own.
+  ALLOWED_RECIPIENTS: [
+    'r.n.lipkin@gmail.com'
+    // 'naama.elb2@gmail.com'   <- intentionally left commented out.
+  ],
+
   // Fallback recipient if an instruction file omits "to".
-  DEFAULT_TO: Session.getEffectiveUser().getEmail()
+  DEFAULT_TO: 'r.n.lipkin@gmail.com'
 };
 
 var DAY_NAMES = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳'];
@@ -102,12 +114,53 @@ function handleInstruction(instruction) {
 
   if (!attachments.length) throw new Error('instruction produced no files');
 
+  var screened = screenRecipients(instruction.to);
+
   MailApp.sendEmail({
-    to: (instruction.to && instruction.to.join(',')) || CONFIG.DEFAULT_TO,
+    to: screened.allowed.join(','),
     subject: instruction.subject || 'עדכון המטבחון של סימה',
-    htmlBody: buildBody(instruction),
+    htmlBody: buildBody(instruction, screened.blocked),
     attachments: attachments
   });
+}
+
+
+/**
+ * Filters requested recipients against the allowlist.
+ *
+ * Anything not on the list is dropped and reported rather than sent to.
+ * If an instruction asks only for disallowed addresses, that is an error
+ * and nothing is sent at all - failing loudly beats quietly mailing the
+ * wrong person, and quietly mailing nobody would look like success.
+ */
+function screenRecipients(requested) {
+  var allowlist = CONFIG.ALLOWED_RECIPIENTS.map(function (a) {
+    return a.trim().toLowerCase();
+  });
+
+  if (!requested || !requested.length) {
+    return { allowed: [CONFIG.DEFAULT_TO], blocked: [] };
+  }
+
+  var allowed = [], blocked = [];
+  requested.forEach(function (addr) {
+    if (allowlist.indexOf(String(addr).trim().toLowerCase()) !== -1) {
+      allowed.push(addr);
+    } else {
+      blocked.push(addr);
+    }
+  });
+
+  if (!allowed.length) {
+    throw new Error('no allowed recipients. Requested: ' +
+                    requested.join(', ') +
+                    '. Allowed: ' + CONFIG.ALLOWED_RECIPIENTS.join(', ') +
+                    '. Nothing sent.');
+  }
+  if (blocked.length) {
+    Logger.log('BLOCKED recipients (not on allowlist): %s', blocked.join(', '));
+  }
+  return { allowed: allowed, blocked: blocked };
 }
 
 
@@ -247,9 +300,15 @@ function renderChecklist(days) {
 }
 
 
-function buildBody(instruction) {
+function buildBody(instruction, blocked) {
   var b = ['<div dir="rtl" style="font-family:Arial,sans-serif">'];
   b.push('<h2 style="color:#b3312c">עדכון המטבחון של סימה</h2>');
+  if (blocked && blocked.length) {
+    b.push('<p style="background:#fff3cd;border:1px solid #e0c069;',
+           'padding:8px;border-radius:4px">',
+           '<b>נחסמו נמענים:</b> ', esc(blocked.join(', ')),
+           ' — לא נמצאים ברשימת ההיתר בסקריפט.</p>');
+  }
   if (instruction.note) b.push('<p>', instruction.note, '</p>');
   if ((instruction.forms || []).length) {
     b.push('<p><b>טפסים מצורפים:</b></p><ul>');
